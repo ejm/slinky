@@ -19,5 +19,5 @@ func main() {
 		slog.Error(err.Error())
 		return
 	}
-	server.Run(":8080")
+	server.Run()
 }

@@ -23,8 +23,8 @@ type Server struct {
 	handler http.Handler
 }
 
-func (s *Server) Run(addr string) error {
-	return http.ListenAndServe(addr, s.handler)
+func (s *Server) Run() error {
+	return http.ListenAndServe(s.config.ListenAddr, s.handler)
 }
 
 func NewServer(config Config) (*Server, error) {
@@ -35,7 +35,7 @@ func NewServer(config Config) (*Server, error) {
 		WithRequestID: true,
 	}
 
-	db, err := sql.Open("postgres", config.DatabaseUrl)
+	db, err := sql.Open("postgres", config.DatabaseUri)
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to database: %w", err)
 	}
