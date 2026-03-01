@@ -23,10 +23,12 @@ type Server struct {
 	handler http.Handler
 }
 
+// Run the HTTP server
 func (s *Server) Run() error {
 	return http.ListenAndServe(s.config.ListenAddr, s.handler)
 }
 
+// Create a new Server from a config
 func NewServer(config Config) (*Server, error) {
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
 	logConfig := sloghttp.Config{

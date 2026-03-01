@@ -87,6 +87,7 @@ func writeJson(w http.ResponseWriter, i interface{}) {
 	}
 }
 
+// Create a generated or vanity vanity short link
 func (s *Server) createShortLinkHandler(w http.ResponseWriter, r *http.Request) {
 	s.logger.InfoContext(r.Context(), "Creating short link")
 	defer r.Body.Close()
