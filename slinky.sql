@@ -3,5 +3,5 @@ create table "links" (
   "short_url" varchar(255) not null UNIQUE,
   "long_url" VARCHAR(255) not null,
   "vanity" BOOLEAN not null,
-  "created" time not null default NOW()
+  "created" TIMESTAMPTZ not null default NOW()
 );
