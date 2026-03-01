@@ -108,7 +108,16 @@ func (s *Server) createShortLinkHandler(w http.ResponseWriter, r *http.Request) 
 	var req shortLinkRequest
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		http.Error(w, "Failed to parse JSON request body", http.StatusBadRequest)
+		return
+	}
+	if req.LongUrl == nil {
+		http.Error(w, "Missing required parameter 'url'", http.StatusBadRequest)
+		return
+	}
+	_, err = url.ParseRequestURI(*req.LongUrl)
+	if err != nil {
+		http.Error(w, "Failed to parse URL", http.StatusBadRequest)
 		return
 	}
 	var resp *shortLinkResponse
