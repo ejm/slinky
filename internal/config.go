@@ -6,4 +6,8 @@ type Config struct {
 	DatabaseUri string `env:"SLINKY_DATABASE_URI" default:"postgresql://localhost:5432/slinky?sslmode=disable"`
 	LinkSize    int    `env:"SLINKY_LINK_SIZE" default:"6"`
 	MaxRetries  int    `env:"SLINKY_MAX_RETRIES" default:"3"`
+	Discord     struct {
+		PoweredBy string `env:"SLINKY_DISCORD_POWERED_BY" default:"Powered by slinky 🔗"`
+		Color     string `env:"SLINKY_DISCORD_EMBED_COLOR" default:"#ef6a9a"`
+	}
 }

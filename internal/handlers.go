@@ -42,6 +42,16 @@ func (s *Server) shortLinkRedirectHandler(w http.ResponseWriter, r *http.Request
 		s.shortLinkQRCodeHandler(shortUrl, w, r)
 		return
 	}
+	if strings.Contains(r.UserAgent(), "Discordbot") {
+		invite := s.extractDiscordInvite(*longUrl)
+		if invite != nil {
+			err = s.writeDiscordInvite(invite, w)
+			if err != nil {
+				handleError(err, w, r)
+			}
+			return
+		}
+	}
 	http.Redirect(w, r, *longUrl, http.StatusMovedPermanently)
 }
 
