@@ -86,7 +86,7 @@ func (s *Server) authMiddleware(next http.Handler) http.Handler {
 		token, err := s.parseJwtToken(tokenString)
 		if err != nil {
 			s.logger.ErrorContext(r.Context(), err.Error())
-			http.Error(w, fmt.Sprintf("Error parsing JWT token: %s", err.Error()), http.StatusInternalServerError)
+			http.Error(w, fmt.Sprintf("Error parsing JWT token: %s", err.Error()), http.StatusUnauthorized)
 		} else if claims, ok := token.Claims.(*authClaims); ok {
 			sloghttp.AddCustomAttributes(
 				r,
