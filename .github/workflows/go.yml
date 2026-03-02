@@ -27,7 +27,7 @@ jobs:
 
     - name: Build
       run: |
-        GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o slinky-${{ matrix.goos }}-${{ matrix.goarch }} ./...
+        GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o slinky-${{ matrix.goos }}-${{ matrix.goarch }} cmd/main.go
       shell: bash
 
     - name: Test
