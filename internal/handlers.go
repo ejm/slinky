@@ -128,6 +128,10 @@ func (s *Server) createShortLinkHandler(w http.ResponseWriter, r *http.Request) 
 	sloghttp.AddCustomAttributes(r, slog.String("longUrl", *req.LongUrl))
 
 	if req.ShortUrl != nil {
+		if !s.hasRole("VanityCreator", r) {
+			http.Error(w, "Only users with the 'VanityCreator' role may create vanity short links", http.StatusForbidden)
+			return
+		}
 		sloghttp.AddCustomAttributes(r, slog.String("shortUrl", *req.ShortUrl))
 		if !shortUrlPattern.Match([]byte(*req.ShortUrl)) {
 			http.Error(w, "Vanity URLs can only contain the characters 0-9, a-z, -, or _", http.StatusBadRequest)
@@ -135,6 +139,10 @@ func (s *Server) createShortLinkHandler(w http.ResponseWriter, r *http.Request) 
 		}
 		resp, err = s.createVanityShortLink(*req.ShortUrl, *req.LongUrl)
 	} else {
+		if !s.hasRole("Creator", r) {
+			http.Error(w, "Only users with the 'Creator' role may create short links", http.StatusForbidden)
+			return
+		}
 		resp, err = s.createShortLink(*req.LongUrl)
 	}
 	if err != nil {
@@ -146,7 +154,7 @@ func (s *Server) createShortLinkHandler(w http.ResponseWriter, r *http.Request) 
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	slog.InfoContext(
+	s.logger.InfoContext(
 		r.Context(),
 		"Created short link",
 		"created", resp.Created,

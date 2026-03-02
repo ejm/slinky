@@ -59,7 +59,7 @@ func NewServer(config Config) (*Server, error) {
 		handler:    handler,
 	}
 
-	router.HandleFunc("/api/links", server.createShortLinkHandler)
+	router.Handle("/api/links", server.authMiddleware(http.HandlerFunc(server.createShortLinkHandler)))
 	router.HandleFunc("/{link}", server.shortLinkRedirectHandler)
 
 	return server, nil

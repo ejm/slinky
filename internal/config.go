@@ -10,4 +10,6 @@ type Config struct {
 		PoweredBy string `env:"SLINKY_DISCORD_POWERED_BY" default:"Powered by slinky 🔗"`
 		Color     string `env:"SLINKY_DISCORD_EMBED_COLOR" default:"#ef6a9a"`
 	}
+	RequireAuth bool   `env:"SLINKY_REQUIRE_AUTH" default:"true"`
+	HmacSecret  string `env:"SLINKY_JWT_HMAC_SECRET"`
 }
