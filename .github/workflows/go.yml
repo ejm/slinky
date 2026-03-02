@@ -27,7 +27,7 @@ jobs:
 
     - name: Build
       run: |
-        GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o slinky-${{ matrix.goos }}-${{ matrix.goarch }} cmd/main.go
+        GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o build/slinky-${{ matrix.goos }}-${{ matrix.goarch }} cmd/main.go
       shell: bash
 
     - name: Test
@@ -35,3 +35,5 @@ jobs:
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v7
+      with:
+        path: build/
