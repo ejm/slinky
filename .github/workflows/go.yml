@@ -27,7 +27,11 @@ jobs:
 
     - name: Build
       run: |
-        GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o build/slinky-${{ matrix.goos }}-${{ matrix.goarch }} cmd/main.go
+        destination="slinky-${{ matrix.goos }}-${{ matrix.goarch }}"
+        if [ "${{matrix.goos}}" == "windows" ]; then
+          destination="${destination}.exe"
+        fi
+        GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o build/$destination cmd/main.go
       shell: bash
 
     - name: Test
