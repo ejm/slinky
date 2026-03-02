@@ -175,6 +175,12 @@ func TestAuthentication(t *testing.T) {
 			Authorization: bearer(createToken(jwt.SigningMethodHS512, SHARED_SECRET, &SUBJECT, []string{})),
 			Expected:      http.StatusUnauthorized,
 		},
+		{
+			Name:          "DoesNotAuthenticateWithInvalidSecret",
+			Path:          "/authenticated",
+			Authorization: bearer(createToken(jwt.SigningMethodHS256, "invalid-secret-string", &SUBJECT, []string{})),
+			Expected:      http.StatusUnauthorized,
+		},
 	}
 
 	server := createTestServer(true, SHARED_SECRET)
