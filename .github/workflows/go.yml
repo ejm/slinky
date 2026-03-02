@@ -37,3 +37,5 @@ jobs:
       uses: actions/upload-artifact@v7
       with:
         path: build/
+        name: 'slinky-${{ matrix.goos }}-${{ matrix.goarch }}'
+        
