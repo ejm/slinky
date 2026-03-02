@@ -71,7 +71,7 @@ slinky is a [Twelve Factor](https://www.12factor.net/) application that is confi
 | `SLINKY_JWT_HMAC_SECRET` | HMAC-SHA256 secret used for verifying signed JWTs | |
 
 ### Running
-slinky is a self-contained executable. After you have set the appropriate environment variables, you can run it with;
+slinky is a self-contained executable. After you have set the appropriate environment variables, you can run it with:
 ```bash
 ./slinky
 ```
