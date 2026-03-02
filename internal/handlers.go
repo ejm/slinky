@@ -5,11 +5,14 @@ import (
 	"log/slog"
 	"net/http"
 	"net/url"
+	"regexp"
 	"strconv"
 	"strings"
 
 	sloghttp "github.com/samber/slog-http"
 )
+
+var shortUrlPattern = regexp.MustCompile("^[0-9a-zA-Z-_]{1,32}$")
 
 // General handler to send a 500 error and log it
 func handleError(err error, w http.ResponseWriter, r *http.Request) {
@@ -126,6 +129,10 @@ func (s *Server) createShortLinkHandler(w http.ResponseWriter, r *http.Request) 
 
 	if req.ShortUrl != nil {
 		sloghttp.AddCustomAttributes(r, slog.String("shortUrl", *req.ShortUrl))
+		if !shortUrlPattern.Match([]byte(*req.ShortUrl)) {
+			http.Error(w, "Vanity URLs can only contain the characters 0-9, a-z, -, or _", http.StatusBadRequest)
+			return
+		}
 		resp, err = s.createVanityShortLink(*req.ShortUrl, *req.LongUrl)
 	} else {
 		resp, err = s.createShortLink(*req.LongUrl)
